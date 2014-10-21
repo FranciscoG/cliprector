@@ -1,0 +1,107 @@
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+main {
+  padding: 20px;
+}
+
+.result {
+  background: #272822;
+  padding: 1em;
+  margin: .5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+.language-css {
+  color: #f8f8f2;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: Consolas, Monaco, monospace;
+  direction: ltr;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+/**********************************/
+
+#pic_drop { 
+  border: 10px dashed #ccc; 
+  display: inline-block;
+  margin: 20px auto;
+}
+
+#pic_drop:empty {
+  width: 300px; 
+  min-height: 300px; 
+  margin: 20px auto;
+}
+
+#pic_drop.hover { border: 10px dashed #0c0; }
+
+#pic_drop img { display: block;}
+
+#pic_drop p { margin: 10px; font-size: 14px; }
+
+/**********************************/
+
+#outer {
+  display: inline-block;
+  padding:7px;
+}
+#box {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background: gray;
+  display: none;
+}
+
+#box img {
+  position: absolute;
+  z-index: 1;
+}
+
+.guide {
+  position: absolute;
+  z-index: 9;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  background-color: red;
+  opacity: 0.8;
+}
+.guide:hover {
+  cursor: move;
+}
+
+.g1 {
+  top: -7px;
+  left: -7px;
+}
+.g2 {
+  top: -7px;
+}
+.g3 {
+  left: -7px;
+}
+.g4 {
+  
+}
