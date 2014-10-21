@@ -56,52 +56,40 @@ var erector = {
     this.clipit();
   },
 
-  onDragG1: function(instance, event, pointer) {
-    console.log('dragMove on ' + event.type + ' position at ' + instance.position.x);
-    erector.updatePos('g1', instance.position);
-  },
-
-  onDragG2: function(instance, event, pointer) {
-    console.log('dragMove on ' + event.type + ' position at ' + instance.position.x);
-    erector.updatePos('g2', instance.position);
-  },
-
-  onDragG3: function(instance, event, pointer) {
-    console.log('dragMove on ' + event.type + ' position at ' + instance.position.y);
-    erector.updatePos('g3', instance.position);
-  },
-
-  onDragG4: function(instance, event, pointer) {
-    console.log('dragMove on ' + event.type + ' position at ' + instance.position.y);
-    erector.updatePos('g4', instance.position);
-  },
-
   dragG1: function() {
     var dG1 = new Draggabilly(this.g1, {
       containment: '#outer'
     });
-    dG1.on('dragMove', this.onDragG1);
+    dG1.on('dragMove', function(instance, event, pointer) {
+      erector.updatePos('g1', instance.position);
+    });
   },
 
   dragG2: function() {
     var dG2 = new Draggabilly(this.g2, {
       containment: '#outer'
     });
-    dG2.on('dragMove', this.onDragG2);
+    dG2.on('dragMove', function(instance, event, pointer) {
+      erector.updatePos('g2', instance.position);
+    });
   },
 
   dragG3: function() {
     var dG3 = new Draggabilly(this.g3, {
       containment: '#outer'
     });
-    dG3.on('dragMove', this.onDragG3);
+    dG3.on('dragMove', function(instance, event, pointer) {
+      erector.updatePos('g3', instance.position);
+    });
   },
 
   dragG4: function() {
     var dG4 = new Draggabilly(this.g4, {
       containment: '#outer'
     });
-    dG4.on('dragMove', this.onDragG4);
+    dG4.on('dragMove', function(instance, event, pointer) {
+      erector.updatePos('g4', instance.position);
+    });
   },
 
   clipit: function() {
