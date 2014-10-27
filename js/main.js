@@ -1,51 +1,52 @@
 var box = document.getElementById("box");
 
 var erector = {
-  g1: document.querySelector('.g1'),
-  g2: document.querySelector('.g2'),
-  g3: document.querySelector('.g3'),
-  g4: document.querySelector('.g4'),
-
+  // the guides at the four corners
+  g1: document.getElementById('g1'),
+  g2: document.getElementById('g2'),
+  g3: document.getElementById('g3'),
+  g4: document.getElementById('g4'),
+  result: document.getElementById('codeResult'),
+  
   updateResult: function() {
-    var result = document.querySelector('.language-css');
-    result.innerHTML = this.img.style.cssText;
+    this.result.innerHTML = this.img.style.cssText;
   },
 
   updatePos: function(src, pos) {
     // update clip rect
     switch (src) {
       case 'g1':
-        // update clip stuff
+        // update clip region
         this.top = pos.y + (this.offset - 1);
         this.left = pos.x + (this.offset - 1);
-        // make sure adjacent things are updated
+        // make sure adjacent guides are updated
         this.g2.style.top = pos.y + 'px';
         this.g3.style.left = pos.x + 'px';
         this.clipit();
         break;
       case 'g2':
-        // update clip stuff
+        // update clip region
         this.top = pos.y + (this.offset - 1);
         this.right = pos.x + this.offset;
-        // make sure adjacent things are updated
+        // make sure adjacent guides are updated
         this.g1.style.top = pos.y + 'px';
         this.g4.style.left = pos.x + 'px';
         this.clipit();
         break;
       case 'g3':
-        // update clip stuff
+        // update clip region
         this.bottom = pos.y + this.offset;
         this.left = pos.x + (this.offset - 1);
-        // make sure adjacent things are updated
+        // make sure adjacent guides are updated
         this.g1.style.left = pos.x + 'px';
         this.g4.style.top = pos.y + 'px';
         this.clipit();
         break;
       case 'g4':
-        // update clip stuff
+        // update clip region
         this.bottom = pos.y + this.offset;
         this.right = pos.x + this.offset;
-        // make sure adjacent things are updated
+        // make sure adjacent guides are updated
         this.g2.style.left = pos.x + 'px';
         this.g3.style.top = pos.y + 'px';
         this.clipit();
@@ -56,39 +57,15 @@ var erector = {
     this.clipit();
   },
 
-  dragG1: function() {
-    var dG1 = new Draggabilly(this.g1, {
-      containment: '#outer'
-    });
-    dG1.on('dragMove', function(instance, event, pointer) {
-      erector.updatePos('g1', instance.position);
-    });
-  },
+  drag: {},
 
-  dragG2: function() {
-    var dG2 = new Draggabilly(this.g2, {
+  initDrag: function(elem, guide) {
+    var _self = this;
+    this.drag[guide] = new Draggabilly(elem, {
       containment: '#outer'
     });
-    dG2.on('dragMove', function(instance, event, pointer) {
-      erector.updatePos('g2', instance.position);
-    });
-  },
-
-  dragG3: function() {
-    var dG3 = new Draggabilly(this.g3, {
-      containment: '#outer'
-    });
-    dG3.on('dragMove', function(instance, event, pointer) {
-      erector.updatePos('g3', instance.position);
-    });
-  },
-
-  dragG4: function() {
-    var dG4 = new Draggabilly(this.g4, {
-      containment: '#outer'
-    });
-    dG4.on('dragMove', function(instance, event, pointer) {
-      erector.updatePos('g4', instance.position);
+    this.drag[guide].on('dragMove', function(instance, event, pointer) {
+      _self.updatePos(guide, instance.position);
     });
   },
 
@@ -97,45 +74,48 @@ var erector = {
     this.updateResult();
   },
 
-  setGuides2: function() {
+  setGuides: function() {
     // set starting guides positons.
     // note: can't use css bottom and right because it breaks the draggable library
-    var offset = 8;
-    this.offset = offset;
+    this.offset = 8;
 
-    // g1: top/left, is set in the CSS
+    // g1: top/left
+    // nothing to do here for g1, handled all in CSS
 
     // g2: top/right,  top is already set in CSS
-    this.g2.style.left = (this.img.width - offset) + 'px';
+    this.g2.style.left = (this.img.width - this.offset) + 'px';
 
     // g3: bottom/left, left is already set in CSS
-    this.g3.style.top = (this.img.height - offset) + 'px';
+    this.g3.style.top = (this.img.height - this.offset) + 'px';
 
     // g4: bottom/right, both need to be set here
-    this.g4.style.top = (this.img.height - offset) + 'px';
-    this.g4.style.left = (this.img.width - offset) + 'px';
+    this.g4.style.top = (this.img.height - this.offset) + 'px';
+    this.g4.style.left = (this.img.width - this.offset) + 'px';
   },
 
   init: function() {
     // make container match img size
-    var _img = document.querySelector("#box img");
-    this.img = _img;
-    box.style.cssText = 'width: ' + _img.width + 'px; height: ' + _img.height + 'px; display: block;';
+    this.img = document.getElementById("clipImg");
+    box.style.cssText = 'width: ' + this.img.width + 'px; height: ' + this.img.height + 'px; display: block;';
 
     // place initial clip guides
-    this.setGuides2();
+    this.setGuides();
 
+    // set the initial clip rect() region to show the entire image
     this.top = 0;
-    this.right = _img.width;
-    this.bottom = _img.height;
+    this.right = this.img.width;
+    this.bottom = this.img.height;
     this.left = 0;
     this.clipit();
 
-    // init the drag library
-    this.dragG1();
-    this.dragG2();
-    this.dragG3();
-    this.dragG4();
+    // init the drag library on the guides
+    this.initDrag(this.g1,'g1');
+    this.initDrag(this.g2,'g2');
+    this.initDrag(this.g3,'g3');
+    this.initDrag(this.g4,'g4');
+
+    // show the CSS results box
+    this.result.style.display = "block";
   }
 };
 
@@ -153,6 +133,7 @@ var uploader = {
       reader.onload = function(event) {
         var image = new Image();
         image.src = event.target.result;
+        image.id = "clipImg";
         self.holder.style.display = "none";
         box.appendChild(image);
         erector.init();
@@ -199,6 +180,8 @@ var uploader = {
         e.preventDefault();
         self.readfiles(e.dataTransfer.files);
       };
+    } else {
+      console.warn('Drag and Drop API not supported by your browser');
     }
   }
 };
