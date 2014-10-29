@@ -62,7 +62,10 @@ main {
   text-align: center;
 }
 
-#pic_drop.hover { border: 10px dashed #0c0; }
+#pic_drop.hover,
+body.hover #pic_drop { 
+  border: 10px dashed #0c0; 
+}
 
 #pic_drop img { display: block;}
 
