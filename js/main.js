@@ -1,6 +1,7 @@
 var box = document.getElementById("box");
 
-var erector = {
+var erector = { // giggity
+
   // the guides at the four corners
   g1: document.getElementById('g1'),
   g2: document.getElementById('g2'),
@@ -125,6 +126,12 @@ var erector = {
 
 var uploader = {
 
+  acceptedTypes : {
+    'image/png': true,
+    'image/jpeg': true,
+    'image/gif': true
+  },
+
   previewfile: function(file) {
     var self = this;
 
@@ -153,36 +160,44 @@ var uploader = {
     }
   },
 
-  init: function() {
+  oldUploadSetup: function(){
+    var self = this;
+    this.fileInput = document.getElementById('file_upload');
+
+    this.fileInput.addEventListener('change', function(e){
+      console.log(this);
+      self.readfiles(this.files);
+    });
+  },
+
+  dndSetup: function(){
     var self = this;
     var holder = document.getElementById('pic_drop');
     this.holder = holder;
+    
+    holder.ondragover = function() {
+      this.className = 'hover';
+      return false;
+    };
+    holder.ondragend = function() {
+      this.className = '';
+      return false;
+    };
+    holder.ondrop = function(e) {
+      this.className = '';
+      e.preventDefault();
+      self.readfiles(e.dataTransfer.files);
+    };
+  },
 
+  init: function() {
+    var self = this;
     var dnd_test = 'draggable' in document.createElement('span');
 
-    this.acceptedTypes = {
-      'image/png': true,
-      'image/jpeg': true,
-      'image/gif': true
-    };
-
     if (dnd_test) {
-      holder.ondragover = function() {
-        this.className = 'hover';
-        return false;
-      };
-      holder.ondragend = function() {
-        this.className = '';
-        return false;
-      };
-      holder.ondrop = function(e) {
-        this.className = '';
-        e.preventDefault();
-        self.readfiles(e.dataTransfer.files);
-      };
-    } else {
-      console.warn('Drag and Drop API not supported by your browser');
+      this.dndSetup();
     }
+    this.oldUploadSetup();
   }
 };
 

@@ -54,12 +54,23 @@ main {
   height: 300px; 
   margin: 20px auto;
   display: table;
+  position: relative;
 }
 
 #pic_drop p {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
+}
+
+#file_upload {
+  position: absolute;
+  top: 56%;
+  left: 109px;
+  text-align: center;
+  display: block;
+  width: 80px;
+  margin: 0 auto;
 }
 
 #pic_drop.hover { border: 10px dashed #0c0; }
