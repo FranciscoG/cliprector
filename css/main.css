@@ -69,7 +69,8 @@ main {
   left: 109px;
   text-align: center;
   display: block;
-  width: 80px;
+  color: #fff;
+  outline: none;
   margin: 0 auto;
 }
 
