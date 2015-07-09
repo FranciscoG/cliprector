@@ -8,7 +8,7 @@ var erector = { // giggity
   g3: document.getElementById('g3'),
   g4: document.getElementById('g4'),
   result: document.getElementById('codeResult'),
-  
+
   updateResult: function() {
     this.result.innerHTML = this.img.style.cssText;
   },
@@ -110,13 +110,13 @@ var erector = { // giggity
     this.clipit();
 
     // init the drag library on the guides
-    this.initDrag(this.g1,'g1');
-    this.initDrag(this.g2,'g2');
-    this.initDrag(this.g3,'g3');
-    this.initDrag(this.g4,'g4');
+    this.initDrag(this.g1, 'g1');
+    this.initDrag(this.g2, 'g2');
+    this.initDrag(this.g3, 'g3');
+    this.initDrag(this.g4, 'g4');
 
     // show the CSS results box
-    this.result.style.display = "block";
+    document.getElementById('result').style.display = "block";
   }
 };
 
@@ -133,15 +133,13 @@ var uploader = {
   },
 
   previewfile: function(file) {
-    var self = this;
-
     if (this.acceptedTypes[file.type] === true) {
       var reader = new FileReader();
       reader.onload = function(event) {
         var image = new Image();
         image.src = event.target.result;
         image.id = "clipImg";
-        self.holder.style.display = "none";
+        document.getElementById('pic_drop').style.display = "none";
         box.appendChild(image);
         erector.init();
       };
@@ -172,7 +170,7 @@ var uploader = {
 
   dndSetup: function(){
     var self = this;
-    var holder = document.getElementById('pic_drop');
+    var holder = document.body;
     this.holder = holder;
     
     holder.ondragover = function() {
